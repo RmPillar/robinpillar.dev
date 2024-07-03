@@ -16,4 +16,11 @@ export default class Debug {
       window.gui = this.gui;
     }
   }
+
+  destroy() {
+    if (!this.gui) return;
+
+    this.gui.dispose();
+    this.gui = null;
+  }
 }

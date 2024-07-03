@@ -1,74 +1,82 @@
-import * as THREE from 'three'
+import * as THREE from "three";
 
-import Debug from './Utils/Debug'
-import Sizes from './Utils/Sizes'
-import Time from './Utils/Time'
-import Camera from './Camera'
-import Renderer from './Renderer'
-import World from './World/World'
-import Resources from './Utils/Resources'
-import sources from './sources'
+import Debug from "./Utils/Debug";
+import Sizes from "./Utils/Sizes";
+import Time from "./Utils/Time";
+import Camera from "./Camera";
+import Renderer from "./Renderer";
+import World from "./World/World";
+import Resources from "./Utils/Resources";
+import sources from "./sources";
 
-let instance = null
+let instance = null;
 
 export default class Experience {
-  constructor (_canvas) {
+  constructor(_canvas) {
     // Singleton
     if (instance) {
-      return instance
+      return instance;
     }
-    instance = this
+    instance = this;
 
     // Global access
-    window.experience = this
+    window.experience = this;
 
     // Options
-    this.canvas = _canvas
+    this.canvas = _canvas;
 
     // Setup
-    this.debug = new Debug()
-    this.sizes = new Sizes()
-    this.time = new Time()
-    this.scene = new THREE.Scene()
-    this.camera = new Camera()
-    this.renderer = new Renderer()
-    this.resources = new Resources(sources)
-    this.world = new World()
+    this.debug = new Debug();
+    this.sizes = new Sizes();
+    this.time = new Time();
+    this.scene = new THREE.Scene();
+    this.camera = new Camera();
+    this.renderer = new Renderer();
+    this.resources = new Resources(sources);
+    this.world = new World();
 
     // Resize event
-    this.sizes.on('resize', () => {
-      this.resize()
-    })
+    this.sizes.on("resize", () => {
+      this.resize();
+    });
 
     // Time tick event
-    this.time.on('tick', () => {
-      this.update()
-    })
+    this.time.on("tick", () => {
+      this.update();
+    });
   }
 
-  resize () {
-    if (!this.camera || !this.renderer) { return }
+  resize() {
+    if (!this.camera || !this.renderer) {
+      return;
+    }
 
-    this.camera.resize()
-    this.renderer.resize()
+    this.camera.resize();
+    this.renderer.resize();
   }
 
-  update () {
-    if (!this.camera || !this.world || !this.renderer) { return }
+  update() {
+    if (!this.camera || !this.world || !this.renderer) {
+      return;
+    }
 
-    this.camera.update()
-    this.world.update()
-    this.renderer.update()
+    this.camera.update();
+    this.world.update();
+    this.renderer.update();
   }
 
-  destroy () {
-    if (!this.camera || !this.renderer) { return }
+  destroy() {
+    if (!this.camera || !this.renderer) {
+      return;
+    }
 
-    this.camera.destroy()
-    this.renderer.destroy()
-    this.time.destroy()
+    this.camera.destroy();
+    this.renderer.destroy();
+    this.time.destroy();
 
-    this.instance = null
-    this.scene = null
+    this.debug.destroy();
+
+    this.instance = null;
+    this.scene = null;
   }
 }

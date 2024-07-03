@@ -1,36 +1,37 @@
+#define PI 3.1415926535897932384626433832795
+
 uniform float uTime;
+uniform float uBorderThickness;
+uniform float uBorderSoftness;
+uniform float uGrainSize;
+uniform float uSpeed;
+
 uniform vec2 uResolution;
+uniform vec2 uTextureAspect;
+
+uniform sampler2D uTextureOne;
 
 varying vec2 vUv;
 
-vec2 N22 (vec2 p) {
-  vec3 a = fract(vec3(p.xyx) * vec3(123.34, 234.34, 345.65));
-  a += dot(a, a + 34.45);
-  return fract(vec2(a.x * a.y, a.z * a.y));
-}
+#include ../includes/object-cover.glsl;
+#include ../includes/voronoi.glsl;
 
-vec2 rand(vec2 co){
-    return vec2(
-        fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453),
-        fract(cos(dot(co.yx ,vec2(8.64947,45.097))) * 43758.5453)
-    )*2.0-1.0;
-}
+void main()
+{
+    float speed = uSpeed;
 
-void main () {
-  float m = 0.0;
-  float minDist = 100.0;
+    vec3 c = voronoi(uGrainSize * vUv, uTime, speed);
 
-  for (float i = 0.0; i < 50.0; i++) {
-    vec2 n = N22(vec2(i)) - 0.5;
-    vec2 p = sin(n * uTime * 0.5) * 0.5 + 0.5;
-    float d = length(vUv - p);
-    m += smoothstep(0.005, 0.0025, d);
+	  // Cell Color
+    vec3 cellColor = vec3(0.0, 0.0, 0.0);
+    vec3 borderColor = vec3(1.0, 1.0, 1.0);
 
-    if(d < minDist) {
-      minDist = d;
-    }
-  }
+    // borders	
+    vec3 color = mix(borderColor, cellColor, smoothstep( uBorderThickness, uBorderThickness + uBorderSoftness, c.x));
 
-  vec3 color = vec3(minDist);
-  gl_FragColor = vec4(color, 1.0);
+    vec2 textureUv = objectCover(vUv, uTextureAspect, uResolution);
+
+    vec4 textureOne = texture2D(uTextureOne, textureUv);
+
+    gl_FragColor = mix(textureOne, vec4(borderColor, 1.0), color.x);
 }
