@@ -9,7 +9,7 @@ uniform float uSpeed;
 uniform vec2 uResolution;
 uniform vec2 uTextureAspect;
 
-uniform sampler2D uTextureOne;
+uniform sampler2D uTexture;
 
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -20,23 +20,22 @@ varying vec3 vNormal;
 void main()
 {
     vec3 normal = normalize(vNormal);
-
     float speed = uSpeed;
+
+    // Texture
+    vec2 textureUv = objectCover(vUv, uTextureAspect, uResolution);
+    vec4 texture = texture2D(uTexture, textureUv);
 
     vec3 c = voronoi(uGrainSize * vUv, uTime, speed);
 
 	  // Cell Color
-    vec3 cellColor = vec3(0.0, 0.0, 0.0);
-    vec3 borderColor = vec3(1.0, 1.0, 1.0);
+    vec4 cellColor = vec4(0.0, 0.0, 0.0, 1.0);
+    vec4 borderColor = vec4(0.0, 0.0, 0.0, 0.0);
 
     // borders	
-    vec3 color = mix(borderColor, cellColor, smoothstep(uBorderThickness, uBorderThickness + uBorderSoftness, c.x));
+    vec4 color = mix(borderColor, texture, smoothstep(uBorderThickness, uBorderThickness + uBorderSoftness, c.x));
 
-    vec2 textureUv = objectCover(vUv, uTextureAspect, uResolution);
-
-    vec4 textureOne = texture2D(uTextureOne, textureUv);
-
-    gl_FragColor = mix(textureOne, vec4(borderColor, 1.0), color.x);
+    gl_FragColor = color;
 
     // gl_FragColor = vec4(normal, 1.0);
 }

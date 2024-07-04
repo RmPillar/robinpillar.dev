@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "Mosk";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("~/assets/fonts/mosk/mosk-ultra-bold-900.ttf") format("truetype");
+}

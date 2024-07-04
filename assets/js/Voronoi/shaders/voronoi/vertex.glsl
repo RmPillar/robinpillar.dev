@@ -19,6 +19,7 @@ void main() {
   // Base position
   float shift = uShift;
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+
   // Shifted positions
   vec3 modelPositionA = modelPosition.xyz + vec3(shift, 0.0, 0.0);
   vec3 modelPositionB = modelPosition.xyz + vec3(0.0, shift, 0.0);
@@ -35,13 +36,13 @@ void main() {
   // Cell Color
   vec3 cellColor = vec3(0.0, 0.0, 0.0);
   vec3 borderColor = vec3(1.0, 1.0, 1.0);
-  // borders	
 
+  // Create Cell Borders
   vec3 color = mix(borderColor, cellColor, smoothstep(uBorderThickness, uBorderThickness + uBorderSoftness, voronoiPosition.x)) * uHeight;
   vec3 colorA = mix(borderColor, cellColor, smoothstep(uBorderThickness, uBorderThickness + uBorderSoftness, voronoiPositionA.x)) * uHeight;
   vec3 colorB = mix(borderColor, cellColor, smoothstep(uBorderThickness, uBorderThickness + uBorderSoftness, voronoiPositionB.x)) * uHeight;
 
-   // Displace Z
+  // Displace Z
   modelPosition.z -= color.x;
   modelPositionA.z -= colorA.x;
   modelPositionB.z -= colorB.x;
@@ -56,7 +57,6 @@ void main() {
   gl_Position = projectedPosition;
 
   vUv = uv;
-
   // Vertex Normal
-  vNormal = computedNormal;
+  vNormal = abs(computedNormal);
 }

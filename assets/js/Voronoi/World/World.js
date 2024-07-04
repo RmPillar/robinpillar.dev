@@ -30,13 +30,13 @@ export default class World {
     this.material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: new THREE.Uniform(0),
-        uTextureOne: new THREE.Uniform(this.resources.items.landscape),
+        uTexture: new THREE.Uniform(this.resources.items.landscape),
         uTextureAspect: new THREE.Uniform(new THREE.Vector2(this.resources.items.landscape.image.width, this.resources.items.landscape.image.height)),
         uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
-        uBorderThickness: new THREE.Uniform(0.015),
-        uBorderSoftness: new THREE.Uniform(0.1),
+        uBorderThickness: new THREE.Uniform(0.01),
+        uBorderSoftness: new THREE.Uniform(0.25),
         uGrainSize: new THREE.Uniform(5),
-        uHeight: new THREE.Uniform(0.1),
+        uHeight: new THREE.Uniform(0.05),
         uSpeed: new THREE.Uniform(0.25),
         uShift: new THREE.Uniform(0.003),
       },
