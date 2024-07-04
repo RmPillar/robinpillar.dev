@@ -34,7 +34,7 @@ export default class World {
         uTextureAspect: new THREE.Uniform(new THREE.Vector2(this.resources.items.landscape.image.width, this.resources.items.landscape.image.height)),
         uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
         uBorderThickness: new THREE.Uniform(0.01),
-        uBorderSoftness: new THREE.Uniform(0.25),
+        uBorderSoftness: new THREE.Uniform(0.15),
         uGrainSize: new THREE.Uniform(5),
         uHeight: new THREE.Uniform(0.05),
         uSpeed: new THREE.Uniform(0.25),
