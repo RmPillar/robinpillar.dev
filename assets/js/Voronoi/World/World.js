@@ -24,19 +24,21 @@ export default class World {
 
   addObjects() {
     // this.geometry = new THREE.PlaneGeometry(this.sizes.width, this.sizes.height);
-    this.geometry = new THREE.PlaneGeometry(1, 1, 200, 200);
+    this.geometry = new THREE.PlaneGeometry(1, 1, 300, 300);
+    this.geometry.deleteAttribute("normal");
+
     this.material = new THREE.ShaderMaterial({
       uniforms: {
         uTime: new THREE.Uniform(0),
         uTextureOne: new THREE.Uniform(this.resources.items.landscape),
         uTextureAspect: new THREE.Uniform(new THREE.Vector2(this.resources.items.landscape.image.width, this.resources.items.landscape.image.height)),
         uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
-        uBorderThickness: new THREE.Uniform(0.05),
-        uBorderSoftness: new THREE.Uniform(0.0),
+        uBorderThickness: new THREE.Uniform(0.015),
+        uBorderSoftness: new THREE.Uniform(0.1),
         uGrainSize: new THREE.Uniform(5),
-        uZMultiplier: new THREE.Uniform(0.6),
-        uMaxZ: new THREE.Uniform(0.06),
+        uHeight: new THREE.Uniform(0.1),
         uSpeed: new THREE.Uniform(0.25),
+        uShift: new THREE.Uniform(0.003),
       },
       vertexShader,
       fragmentShader,
@@ -57,9 +59,9 @@ export default class World {
     folder.addBinding(this.material.uniforms.uBorderThickness, "value", { min: 0, max: 1, step: 0.01, label: "Border Thickness" });
     folder.addBinding(this.material.uniforms.uBorderSoftness, "value", { min: 0, max: 1, step: 0.01, label: "Border Softness" });
     folder.addBinding(this.material.uniforms.uGrainSize, "value", { min: 1, max: 50, step: 1, label: "Grain Size" });
-    folder.addBinding(this.material.uniforms.uZMultiplier, "value", { min: 0, max: 1, step: 0.01, label: "Z Multiplier" });
-    folder.addBinding(this.material.uniforms.uMaxZ, "value", { min: 0, max: 0.1, step: 0.001, label: "Max Z" });
+    folder.addBinding(this.material.uniforms.uHeight, "value", { min: 0, max: 1, step: 0.01, label: "Height" });
     folder.addBinding(this.material.uniforms.uSpeed, "value", { min: 0, max: 5, step: 0.01, label: "Speed" });
+    folder.addBinding(this.material.uniforms.uShift, "value", { min: 0, max: 0.02, step: 0.0001, label: "Shift" });
     folder.addBinding(this.material, "wireframe", { label: "Wireframe" });
   }
 

@@ -22,5 +22,6 @@ export default class Debug {
 
     this.gui.dispose();
     this.gui = null;
+    window.gui = null;
   }
 }

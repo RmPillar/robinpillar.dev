@@ -26,7 +26,7 @@ onBeforeUnmount(() => {
   <main>
     <canvas
       ref="canvasRef"
-      class="absolute inset-0 h-screen w-screen"
+      class="absolute inset-0 h-screen w-screen bg-gray-100"
     />
   </main>
 </template>
