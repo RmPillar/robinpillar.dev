@@ -23,9 +23,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <main class="bg-gray-100">
+  <main class="min-h-screen bg-gray-900">
     <div class="absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 rotate-3">
-      <Marquee
+      <AutoMarquee
         body="Voronoi"
         :speed="120"
       />

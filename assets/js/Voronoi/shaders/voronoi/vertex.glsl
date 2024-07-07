@@ -10,6 +10,9 @@ uniform float uShift;
 
 varying vec2 vUv;
 varying vec3 vNormal;
+varying vec3 vCameraVector;
+varying vec3 vWorldNormal;
+varying vec3 vPosition;
 
 #include ../includes/voronoi.glsl;
 
@@ -52,11 +55,17 @@ void main() {
   vec3 toB = normalize(modelPositionB - modelPosition.xyz);
   vec3 computedNormal = cross(toA, toB);
 
+// calculagte normal matrix and use computed normal if needed
+  mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
+  vec3 transformedNormal = normalMatrix * computedNormal;
+
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;
   gl_Position = projectedPosition;
 
   vUv = uv;
-  // Vertex Normal
   vNormal = abs(computedNormal);
+  vCameraVector = normalize(modelPosition.xyz - cameraPosition);
+  vWorldNormal = normalize(transformedNormal);
+  vPosition = modelPosition.xyz;
 }

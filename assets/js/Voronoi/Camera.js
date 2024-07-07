@@ -7,7 +7,10 @@ export default class Camera {
   constructor() {
     this.experience = new Experience();
     this.sizes = this.experience.sizes;
-    this.scene = this.experience.scene;
+
+    this.voronoi = this.experience.voronoi;
+    this.scene = this.voronoi.scene;
+
     this.canvas = this.experience.canvas;
     this.renderer = this.experience.renderer;
 

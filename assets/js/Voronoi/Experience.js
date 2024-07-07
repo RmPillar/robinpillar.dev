@@ -1,11 +1,10 @@
-import * as THREE from "three";
-
 import Debug from "./Utils/Debug";
 import Sizes from "./Utils/Sizes";
 import Time from "./Utils/Time";
 import Camera from "./Camera";
 import Renderer from "./Renderer";
-import World from "./World/World";
+import Voronoi from "./Voronoi";
+import Refraction from "./Refraction";
 import Resources from "./Utils/Resources";
 import sources from "./sources";
 
@@ -29,11 +28,12 @@ export default class Experience {
     this.debug = new Debug();
     this.sizes = new Sizes();
     this.time = new Time();
-    this.scene = new THREE.Scene();
+    this.resources = new Resources(sources);
+    this.refraction = new Refraction();
+    this.voronoi = new Voronoi();
+
     this.camera = new Camera();
     this.renderer = new Renderer();
-    this.resources = new Resources(sources);
-    this.world = new World();
 
     // Resize event
     this.sizes.on("resize", () => {
@@ -56,12 +56,12 @@ export default class Experience {
   }
 
   update() {
-    if (!this.camera || !this.world || !this.renderer) {
+    if (!this.camera || !this.voronoi || !this.renderer) {
       return;
     }
 
     this.camera.update();
-    this.world.update();
+    this.voronoi.update();
     this.renderer.update();
   }
 

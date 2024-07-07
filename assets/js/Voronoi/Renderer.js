@@ -1,47 +1,70 @@
-import * as THREE from 'three'
-import Experience from './Experience'
+import * as THREE from "three";
+import Experience from "./Experience";
 
 export default class Renderer {
-  constructor () {
-    this.experience = new Experience()
-    this.canvas = this.experience.canvas
-    this.sizes = this.experience.sizes
-    this.scene = this.experience.scene
-    this.camera = this.experience.camera
+  constructor() {
+    this.experience = new Experience();
+    this.canvas = this.experience.canvas;
+    this.sizes = this.experience.sizes;
+    this.camera = this.experience.camera;
 
-    this.setInstance()
+    this.voronoi = this.experience.voronoi;
+    this.voronoiScene = this.voronoi.scene;
+
+    this.refraction = this.experience.refraction;
+    this.refractionScene = this.refraction.scene;
+
+    this.setInstance();
   }
 
-  setInstance () {
-    if (!this.canvas || !this.sizes) { return }
+  setInstance() {
+    if (!this.canvas || !this.sizes) {
+      return;
+    }
 
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: true
-    })
-    this.instance.setSize(this.sizes.width, this.sizes.height)
-    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2))
+      alpha: true,
+      clearColor: 0x000000,
+    });
+    this.instance.setSize(this.sizes.width, this.sizes.height);
+    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
   }
 
-  resize () {
-    if (!this.instance || !this.sizes) { return }
+  resize() {
+    if (!this.instance || !this.sizes) {
+      return;
+    }
 
-    this.instance.setSize(this.sizes.width, this.sizes.height)
-    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2))
+    this.instance.setSize(this.sizes.width, this.sizes.height);
+    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
   }
 
-  update () {
-    if (!this.instance || !this.scene || !this.camera?.instance) { return }
+  update() {
+    if (!this.instance || !this.voronoiScene || !this.camera?.instance || !this.refractionScene || !this.refraction.texture) {
+      return;
+    }
 
-    this.instance.render(this.scene, this.camera.instance)
+    this.voronoi.mesh.visible = false;
+
+    this.instance.setRenderTarget(this.refraction.texture);
+    this.instance.render(this.voronoiScene, this.camera.instance);
+    this.instance.setRenderTarget(null);
+    this.instance.clear();
+
+    this.voronoi.mesh.visible = true;
+
+    this.instance.render(this.voronoiScene, this.camera.instance);
   }
 
-  destroy () {
-    if (!this.instance) { return }
+  destroy() {
+    if (!this.instance) {
+      return;
+    }
 
-    this.instance.dispose()
+    this.instance.dispose();
 
-    this.instance = null
+    this.instance = null;
   }
 }
