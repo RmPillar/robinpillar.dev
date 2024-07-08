@@ -26,7 +26,7 @@ export default class Renderer {
       canvas: this.canvas,
       antialias: true,
       alpha: true,
-      clearColor: 0x000000,
+      // clearColor: 0x000000,
     });
     this.instance.setSize(this.sizes.width, this.sizes.height);
     this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
@@ -42,7 +42,7 @@ export default class Renderer {
   }
 
   update() {
-    if (!this.instance || !this.voronoiScene || !this.camera?.instance || !this.refractionScene || !this.refraction.texture) {
+    if (!this.instance || !this.voronoiScene || !this.camera?.instance || !this.refractionScene || !this.refraction.texture || !this.voronoi?.mesh) {
       return;
     }
 

@@ -7,6 +7,7 @@ import Voronoi from "./Voronoi";
 import Refraction from "./Refraction";
 import Resources from "./Utils/Resources";
 import sources from "./sources";
+import Text from "./Text";
 
 let instance = null;
 
@@ -31,6 +32,7 @@ export default class Experience {
     this.resources = new Resources(sources);
     this.refraction = new Refraction();
     this.voronoi = new Voronoi();
+    this.text = new Text();
 
     this.camera = new Camera();
     this.renderer = new Renderer();
@@ -62,6 +64,7 @@ export default class Experience {
 
     this.camera.update();
     this.voronoi.update();
+    this.text.update();
     this.renderer.update();
   }
 

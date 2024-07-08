@@ -10,6 +10,9 @@ dependencies:
   three:
     specifier: ^0.165.0
     version: 0.165.0
+  three-msdf-text-utils:
+    specifier: ^1.1.7
+    version: 1.1.7(three@0.165.0)
   tweakpane:
     specifier: ^4.0.3
     version: 4.0.3
@@ -2804,6 +2807,10 @@ packages:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
+  /an-array@1.0.0:
+    resolution: {integrity: sha512-M175GYI7RmsYu24Ok383yZQa3eveDfNnmhTe3OQ3bm70bEovz2gWenH+ST/n32M8lrwLWk74hcPds5CDRPe2wg==}
+    dev: false
+
   /ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
     engines: {node: '>=6'}
@@ -3660,6 +3667,11 @@ packages:
   /dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
+
+  /dtype@2.0.0:
+    resolution: {integrity: sha512-s2YVcLKdFGS0hpFqJaTwscsyt0E8nNFdmo73Ocd81xNPj4URI4rj6D60A+vFMIw7BXWlb4yRkEwfBqcZzPGiZg==}
+    engines: {node: '>= 0.8.0'}
+    dev: false
 
   /duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
@@ -4666,6 +4678,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       binary-extensions: 2.3.0
+
+  /is-buffer@1.1.6:
+    resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
+    dev: false
 
   /is-builtin-module@3.2.1:
     resolution: {integrity: sha512-BSLE3HnV2syZ0FK0iMA/yUGplUeMmNz4AW5fnTunbCIqZi4vG3WjJT9FHMy5D69xmAYBHXQhJdALdpwVxV501A==}
@@ -6513,6 +6529,14 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+  /quad-indices@2.0.1:
+    resolution: {integrity: sha512-6jtmCsEbGAh5npThXrBaubbTjPcF0rMbn57XCJVI7LkW8PUT56V+uIrRCCWCn85PSgJC9v8Pm5tnJDwmOBewvA==}
+    dependencies:
+      an-array: 1.0.0
+      dtype: 2.0.0
+      is-buffer: 1.1.6
+    dev: false
+
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -7262,6 +7286,16 @@ packages:
       any-promise: 1.3.0
     dev: true
 
+  /three-msdf-text-utils@1.1.7(three@0.165.0):
+    resolution: {integrity: sha512-wnK349KJlDmq3eH76VD62xC+Hz6z2/7ql9mztrc7qgsXpwyxHrzOsftBUxwNBxTLEzXUvnWcSkpvjcrAThJ1Wg==}
+    peerDependencies:
+      three: '>= 0.129.0'
+    dependencies:
+      quad-indices: 2.0.1
+      three: 0.165.0
+      word-wrapper: 1.0.7
+    dev: false
+
   /three@0.165.0:
     resolution: {integrity: sha512-cc96IlVYGydeceu0e5xq70H8/yoVT/tXBxV/W8A/U6uOq7DXc4/s1Mkmnu6SqoYGhSRWWYFOhVwvq6V0VtbplA==}
     dev: false
@@ -7953,6 +7987,10 @@ packages:
   /word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
+
+  /word-wrapper@1.0.7:
+    resolution: {integrity: sha512-VOPBFCm9b6FyYKQYfn9AVn2dQvdR/YOVFV6IBRA1TBMJWKffvhEX1af6FMGrttILs2Q9ikCRhLqkbY2weW6dOQ==}
+    dev: false
 
   /wrap-ansi@7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}

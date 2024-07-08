@@ -14,4 +14,14 @@ export default [
     type: "texture",
     path: "/images/landscape-grayscale.jpg",
   },
+  {
+    name: "font",
+    type: "font",
+    path: "/fonts/mosk/mosk-ultra-bold-900-msdf.json",
+  },
+  {
+    name: "atlas",
+    type: "texture",
+    path: "/fonts/mosk/mosk-ultra-bold-900-msdf.png",
+  },
 ];

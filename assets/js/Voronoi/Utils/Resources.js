@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+
 // @ts-ignore
 import EventEmitter from "./EventEmitter";
 
@@ -20,37 +20,21 @@ export default class Resources extends EventEmitter {
 
   setLoaders() {
     this.loaders = {};
-    this.loaders.gltfLoader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/static/draco/");
-    this.loaders.gltfLoader.setDRACOLoader(dracoLoader);
 
     this.loaders.textureLoader = new THREE.TextureLoader();
-    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
+    this.loaders.fontLoader = new FontLoader();
   }
 
   startLoading() {
-    if (
-      !this.loaders?.gltfLoader ||
-      !this.loaders?.textureLoader ||
-      !this.loaders?.cubeTextureLoader
-    )
-      return;
+    if (!this.loaders?.textureLoader || !this.loaders?.fontLoader) return;
     // Load each source
     for (const source of this.sources) {
-      if (source.type === "gltfModel" && typeof source.path === "string") {
-        this.loaders.gltfLoader.load(source.path, (file) => {
-          this.sourceLoaded(source, file);
-        });
-      } else if (source.type === "texture" && typeof source.path === "string") {
+      if (source.type === "texture" && typeof source.path === "string") {
         this.loaders.textureLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
-      } else if (
-        source.type === "cubeTexture" &&
-        typeof source.path === "object"
-      ) {
-        this.loaders.cubeTextureLoader.load(source.path, (file) => {
+      } else if (source.type === "font" && typeof source.path === "string") {
+        this.loaders.fontLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
       }
