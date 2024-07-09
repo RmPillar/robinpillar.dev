@@ -24,23 +24,22 @@ export default class Voronoi {
   }
 
   addObjects() {
-    this.geometry = new THREE.PlaneGeometry(1, 1, 500, 500);
-    // this.geometry = new THREE.BoxGeometry(1, 1, 0.2, 500, 500, 100);
+    this.geometry = new THREE.PlaneGeometry(1, 1, 650, 650);
+    // Remove normals attribute as we'll end up calculating them in the shader
     this.geometry.deleteAttribute("normal");
 
     this.material = new THREE.ShaderMaterial({
       uniforms: {
-        uTime: new THREE.Uniform(0),
-        uTexture: new THREE.Uniform(this.resources.items.landscape),
-        uTextureAspect: new THREE.Uniform(new THREE.Vector2(this.resources.items.landscape.image.width, this.resources.items.landscape.image.height)),
-        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
+        // Voronoi Uniforms
+        uTexture: new THREE.Uniform(null),
         uBorderThickness: new THREE.Uniform(0.01),
-        uBorderSoftness: new THREE.Uniform(0.15),
+        uBorderSoftness: new THREE.Uniform(0.25),
         uGrainSize: new THREE.Uniform(5),
         uHeight: new THREE.Uniform(0.05),
         uSpeed: new THREE.Uniform(0.25),
         uShift: new THREE.Uniform(0.003),
-        uLoops: new THREE.Uniform(16),
+        // Refraction Uniforms
+        uSamples: new THREE.Uniform(16),
         uIorR: new THREE.Uniform(2.2),
         uIorY: new THREE.Uniform(2.23),
         uIorG: new THREE.Uniform(2.18),
@@ -50,12 +49,16 @@ export default class Voronoi {
         uRefractPower: new THREE.Uniform(0.3),
         uChromaticAberration: new THREE.Uniform(1.0),
         uSaturation: new THREE.Uniform(1.1),
+        // Light Uniforms
         uLight: new THREE.Uniform(new THREE.Vector3(1.0, 1.0, -1.0)),
         uDiffuseness: new THREE.Uniform(0.1),
         uShininess: new THREE.Uniform(1.25),
         uFresnelPower: new THREE.Uniform(14),
+        // Other Uniforms
+        uTime: new THREE.Uniform(0),
         uShowNormals: new THREE.Uniform(false),
         uShowSpecular: new THREE.Uniform(false),
+        uShowDisplacement: new THREE.Uniform(false),
       },
       vertexShader,
       fragmentShader,
@@ -64,7 +67,6 @@ export default class Voronoi {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-    // this.mesh.position.set(0, 0, -0.5);
     this.scene.add(this.mesh);
   }
 
@@ -94,7 +96,7 @@ export default class Voronoi {
     voronoiFolder.addBinding(this.material.uniforms.uSpeed, "value", { min: 0, max: 5, step: 0.01, label: "Speed" });
     voronoiFolder.addBinding(this.material.uniforms.uShift, "value", { min: 0, max: 0.02, step: 0.0001, label: "Shift" });
 
-    refractionFolder.addBinding(this.material.uniforms.uLoops, "value", { min: 1, max: 32, step: 1, label: "Loops" });
+    refractionFolder.addBinding(this.material.uniforms.uSamples, "value", { min: 1, max: 32, step: 1, label: "Loops" });
     refractionFolder.addBinding(this.material.uniforms.uIorR, "value", { min: 0, max: 20, step: 0.01, label: "Ior Red" });
     refractionFolder.addBinding(this.material.uniforms.uIorY, "value", { min: 0, max: 20, step: 0.01, label: "Ior Yellow" });
     refractionFolder.addBinding(this.material.uniforms.uIorG, "value", { min: 0, max: 20, step: 0.01, label: "Ior Green" });
@@ -115,6 +117,7 @@ export default class Voronoi {
     otherFolder.addBinding(this.material, "wireframe", { label: "Wireframe" });
     otherFolder.addBinding(this.material.uniforms.uShowNormals, "value", { label: "Normals" });
     otherFolder.addBinding(this.material.uniforms.uShowSpecular, "value", { label: "Specular" });
+    otherFolder.addBinding(this.material.uniforms.uShowDisplacement, "value", { label: "Displacement" });
   }
 
   update() {

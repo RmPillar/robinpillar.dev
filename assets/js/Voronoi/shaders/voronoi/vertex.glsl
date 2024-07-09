@@ -18,9 +18,9 @@ varying vec3 vPosition;
 
 void main() {
   float speed = uSpeed;
+  float shift = uShift;
 
   // Base position
-  float shift = uShift;
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);
 
   // Shifted positions
@@ -63,8 +63,8 @@ void main() {
   vec4 projectedPosition = projectionMatrix * viewPosition;
   gl_Position = projectedPosition;
 
+  // Varyings
   vUv = uv;
-  // vNormal = abs(computedNormal);
   vNormal = computedNormal;
   vCameraVector = normalize(modelPosition.xyz - cameraPosition);
   vWorldNormal = normalize(transformedNormal);
