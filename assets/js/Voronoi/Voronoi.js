@@ -40,25 +40,26 @@ export default class Voronoi {
         uHeight: new THREE.Uniform(0.05),
         uSpeed: new THREE.Uniform(0.25),
         uShift: new THREE.Uniform(0.003),
-        uIorR: new THREE.Uniform(9),
-        uIorY: new THREE.Uniform(9.8),
-        uIorG: new THREE.Uniform(9.5),
-        uIorC: new THREE.Uniform(9.1),
-        uIorB: new THREE.Uniform(9.75),
-        uIorP: new THREE.Uniform(9.5),
-        uRefractPower: new THREE.Uniform(0.2),
+        uLoops: new THREE.Uniform(16),
+        uIorR: new THREE.Uniform(2.2),
+        uIorY: new THREE.Uniform(2.23),
+        uIorG: new THREE.Uniform(2.18),
+        uIorC: new THREE.Uniform(2.3),
+        uIorB: new THREE.Uniform(2.12),
+        uIorP: new THREE.Uniform(2.27),
+        uRefractPower: new THREE.Uniform(0.3),
         uChromaticAberration: new THREE.Uniform(1.0),
-        uShowNormals: new THREE.Uniform(false),
         uSaturation: new THREE.Uniform(1.1),
         uLight: new THREE.Uniform(new THREE.Vector3(1.0, 1.0, -1.0)),
         uDiffuseness: new THREE.Uniform(0.1),
-        uShininess: new THREE.Uniform(1.5),
-        uFresnelPower: new THREE.Uniform(1.5),
+        uShininess: new THREE.Uniform(1.25),
+        uFresnelPower: new THREE.Uniform(14),
+        uShowNormals: new THREE.Uniform(false),
+        uShowSpecular: new THREE.Uniform(false),
       },
       vertexShader,
       fragmentShader,
       side: THREE.DoubleSide,
-      // transparent: true,
     });
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -78,17 +79,22 @@ export default class Voronoi {
       title: "Refraction",
     });
 
+    const lightFolder = this.debug.gui.addFolder({
+      title: "Light",
+    });
+
     const otherFolder = this.debug.gui.addFolder({
       title: "Other",
     });
 
     voronoiFolder.addBinding(this.material.uniforms.uBorderThickness, "value", { min: 0, max: 1, step: 0.01, label: "Border Thickness" });
     voronoiFolder.addBinding(this.material.uniforms.uBorderSoftness, "value", { min: 0, max: 1, step: 0.01, label: "Border Softness" });
-    voronoiFolder.addBinding(this.material.uniforms.uGrainSize, "value", { min: 1, max: 50, step: 1, label: "Grain Size" });
+    voronoiFolder.addBinding(this.material.uniforms.uGrainSize, "value", { min: 1, max: 12, step: 1, label: "Grain Size" });
     voronoiFolder.addBinding(this.material.uniforms.uHeight, "value", { min: 0, max: 1, step: 0.01, label: "Height" });
     voronoiFolder.addBinding(this.material.uniforms.uSpeed, "value", { min: 0, max: 5, step: 0.01, label: "Speed" });
     voronoiFolder.addBinding(this.material.uniforms.uShift, "value", { min: 0, max: 0.02, step: 0.0001, label: "Shift" });
 
+    refractionFolder.addBinding(this.material.uniforms.uLoops, "value", { min: 1, max: 32, step: 1, label: "Loops" });
     refractionFolder.addBinding(this.material.uniforms.uIorR, "value", { min: 0, max: 20, step: 0.01, label: "Ior Red" });
     refractionFolder.addBinding(this.material.uniforms.uIorY, "value", { min: 0, max: 20, step: 0.01, label: "Ior Yellow" });
     refractionFolder.addBinding(this.material.uniforms.uIorG, "value", { min: 0, max: 20, step: 0.01, label: "Ior Green" });
@@ -99,16 +105,16 @@ export default class Voronoi {
     refractionFolder.addBinding(this.material.uniforms.uChromaticAberration, "value", { min: 0, max: 2, step: 0.01, label: "Chromatic Aberration" });
     refractionFolder.addBinding(this.material.uniforms.uSaturation, "value", { min: 1, max: 1.25, step: 0.01, label: "Saturation" });
 
-    otherFolder.addBinding(this.material.uniforms.uLight.value, "x", { label: "Light X" });
-    otherFolder.addBinding(this.material.uniforms.uLight.value, "y", { label: "Light Y" });
-    otherFolder.addBinding(this.material.uniforms.uLight.value, "z", { label: "Light Z" });
-
-    otherFolder.addBinding(this.material.uniforms.uDiffuseness, "value", { min: 0, max: 1, step: 0.01, label: "Diffuseness" });
-    otherFolder.addBinding(this.material.uniforms.uShininess, "value", { min: 0, max: 100, step: 1, label: "Shininess" });
-    otherFolder.addBinding(this.material.uniforms.uFresnelPower, "value", { min: 0, max: 100, step: 0.1, label: "Fresnel Power" });
+    lightFolder.addBinding(this.material.uniforms.uLight.value, "x", { label: "Light X" });
+    lightFolder.addBinding(this.material.uniforms.uLight.value, "y", { label: "Light Y" });
+    lightFolder.addBinding(this.material.uniforms.uLight.value, "z", { label: "Light Z" });
+    lightFolder.addBinding(this.material.uniforms.uDiffuseness, "value", { min: 0, max: 1, step: 0.01, label: "Diffuseness" });
+    lightFolder.addBinding(this.material.uniforms.uShininess, "value", { min: 0, max: 5, step: 0.01, label: "Shininess" });
+    lightFolder.addBinding(this.material.uniforms.uFresnelPower, "value", { min: 0, max: 100, step: 0.1, label: "Fresnel Power" });
 
     otherFolder.addBinding(this.material, "wireframe", { label: "Wireframe" });
     otherFolder.addBinding(this.material.uniforms.uShowNormals, "value", { label: "Normals" });
+    otherFolder.addBinding(this.material.uniforms.uShowSpecular, "value", { label: "Specular" });
   }
 
   update() {

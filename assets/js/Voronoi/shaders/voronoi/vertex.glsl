@@ -64,8 +64,8 @@ void main() {
   gl_Position = projectedPosition;
 
   vUv = uv;
-  vNormal = abs(computedNormal);
-  // vNormal = computedNormal;
+  // vNormal = abs(computedNormal);
+  vNormal = computedNormal;
   vCameraVector = normalize(modelPosition.xyz - cameraPosition);
   vWorldNormal = normalize(transformedNormal);
   vPosition = modelPosition.xyz;

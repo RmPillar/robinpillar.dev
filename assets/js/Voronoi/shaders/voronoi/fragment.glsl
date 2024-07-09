@@ -4,6 +4,7 @@ uniform float uBorderSoftness;
 uniform float uGrainSize;
 uniform float uSpeed;
 
+uniform int uLoops;
 uniform float uIorR;
 uniform float uIorY;
 uniform float uIorG;
@@ -19,6 +20,7 @@ uniform float uDiffuseness;
 uniform vec3 uLight;
 uniform float uFresnelPower;
 
+uniform bool uShowSpecular;
 uniform bool uShowNormals;
 
 uniform vec2 uResolution;
@@ -35,29 +37,8 @@ varying vec3 vPosition;
 #include ../includes/object-cover.glsl;
 #include ../includes/voronoi.glsl;
 #include ../includes/saturate.glsl;
-
-float specular(vec3 normal, vec3 viewDirection, vec3 light, float shininess, float diffuseness) {
-  vec3 lightVector = normalize(-light);
-  vec3 halfVector = normalize(viewDirection + lightVector);
-
-  float NdotL = dot(normal, lightVector);
-  float NdotH =  dot(normal, halfVector);
-  float NdotH2 = NdotH * NdotH;
-
-  float kDiffuse = max(0.0, NdotL);
-  float kSpecular = pow(NdotH2, shininess);
-
-  return  kSpecular + kDiffuse * diffuseness;
-}
-
-float fresnel(vec3 eyeVector, vec3 worldNormal, float power) {
-  float fresnelFactor = abs(dot(eyeVector, worldNormal));
-  float inversefresnelFactor = 1.0 - fresnelFactor;
-
-  return pow(inversefresnelFactor, power);
-}
-
-const int LOOP = 16;
+#include ../includes/specular.glsl;
+#include ../includes/fresnel.glsl;
 
 void main()
 {
@@ -77,8 +58,8 @@ void main()
     vec3 color = vec3(0.0);
 
     // Take many samples to get a better refraction effect
-    for ( int i = 0; i < LOOP; i ++ ) {
-      float slide = float(i) / float(LOOP) * 0.1;
+    for ( int i = 0; i < uLoops; i ++ ) {
+      float slide = float(i) / float(uLoops) * 0.1;
 
       // Refract each color channel separately (Red, Yellow, Green, Cyan, Blue, and Violet)
       vec3 refractVecR = refract(viewDirection, normal, iorRRatio);
@@ -121,7 +102,7 @@ void main()
     };
 
     // Average the color
-    color /= float(LOOP);
+    color /= float(uLoops);
 
     // Voronoi
     vec3 c = voronoi(uGrainSize * vUv, uTime, speed);
@@ -138,12 +119,14 @@ void main()
     color += specularLight;
 
     // Fresnel
-    // float f = fresnel(viewDirection, normal, uFresnelPower);
-    // color.rgb += f * vec3(1.0);
+    float f = fresnel(viewDirection, normal, uFresnelPower);
+    color.rgb += f * vec3(1.0);
 
-    // gl_FragColor = mix(vec4(color, 1.0), cellColor, 0.01);
     gl_FragColor = vec4(color, 1.0);
-    // gl_FragColor =vec4(specularLight, specularLight, specularLight, 1.0);
+
+    if(uShowSpecular) {
+      gl_FragColor =vec4(specularLight, specularLight, specularLight, 1.0);
+    }
 
     if(uShowNormals) {
       gl_FragColor = vec4(normal, 1.0);
