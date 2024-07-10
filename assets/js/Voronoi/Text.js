@@ -16,8 +16,6 @@ export default class Text {
   }
 
   init() {
-    console.log(this.resources.items);
-
     this.font = this.resources.items.font;
     this.atlas = this.resources.items.atlas;
 
@@ -33,8 +31,6 @@ export default class Text {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-    console.log(this.mesh);
-
     this.mesh.scale.set(-0.02, 0.02, 0.02);
     this.mesh.position.set(-2, -0.15, -1);
     this.mesh.rotation.set(Math.PI, Math.PI, -3 * (Math.PI / 180));
@@ -46,5 +42,17 @@ export default class Text {
     if (!this.mesh) {
       return;
     }
+  }
+
+  destroy() {
+    if (!this.mesh || !this.scene || !this.geometry || !this.material) {
+      return;
+    }
+
+    this.geometry.dispose();
+    this.material.dispose();
+
+    this.scene.remove(this.mesh);
+    this.mesh = null;
   }
 }

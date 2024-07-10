@@ -13,6 +13,10 @@ export default class Voronoi {
     this.sizes = this.experience.sizes;
     this.debug = this.experience.debug;
 
+    this.detail = {
+      value: 650,
+    };
+
     this.resources.on("ready", () => {
       this.init();
     });
@@ -24,7 +28,7 @@ export default class Voronoi {
   }
 
   addObjects() {
-    this.geometry = new THREE.PlaneGeometry(1, 1, 650, 650);
+    this.geometry = new THREE.PlaneGeometry(1, 1, this.detail.value, this.detail.value);
     // Remove normals attribute as we'll end up calculating them in the shader
     this.geometry.deleteAttribute("normal");
 
@@ -126,5 +130,17 @@ export default class Voronoi {
     this.material.uniforms.uTime.value = this.experience.time.elapsed / 1000;
 
     this.mesh.material.uniforms.uTexture.value = this.refraction.texture.texture;
+  }
+
+  destroy() {
+    if (!this.material || !this.geometry || !this.mesh) return;
+
+    this.material.dispose();
+    this.geometry.dispose();
+    this.scene.remove(this.mesh);
+
+    this.material = null;
+    this.geometry = null;
+    this.mesh = null;
   }
 }

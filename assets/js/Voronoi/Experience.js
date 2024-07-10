@@ -58,7 +58,7 @@ export default class Experience {
   }
 
   update() {
-    if (!this.camera || !this.voronoi || !this.renderer) {
+    if (!this.camera || !this.voronoi || !this.text || !this.renderer) {
       return;
     }
 
@@ -69,13 +69,15 @@ export default class Experience {
   }
 
   destroy() {
-    if (!this.camera || !this.renderer) {
+    if (!this.camera || !this.renderer || !this.time || !this.voronoi || !this.text || !this.debug) {
       return;
     }
 
     this.camera.destroy();
     this.renderer.destroy();
     this.time.destroy();
+    this.voronoi.destroy();
+    this.text.destroy();
 
     this.debug.destroy();
 

@@ -22,4 +22,14 @@ export default class Refraction {
   resize() {
     this.texture.setSize(this.sizes.width, this.sizes.height);
   }
+
+  destroy() {
+    if (!this.texture) {
+      return;
+    }
+
+    this.texture.dispose();
+
+    this.texture = null;
+  }
 }
