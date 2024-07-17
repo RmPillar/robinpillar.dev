@@ -24,12 +24,6 @@ onBeforeUnmount(() => {
 
 <template>
   <main class="min-h-screen bg-zinc-950">
-    <!-- <div class="absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 rotate-3">
-      <AutoMarquee
-        body="Voronoi"
-        :speed="120"
-      />
-    </div> -->
     <canvas
       ref="canvasRef"
       class="absolute inset-0 h-screen w-screen"

@@ -1,5 +1,4 @@
 // Includes
-#include ../includes/object-cover.glsl;
 #include ../includes/voronoi.glsl;
 #include ../includes/saturate.glsl;
 #include ../includes/specular.glsl;
@@ -32,6 +31,7 @@ uniform float uFresnelPower;
 
 // Other Uniforms
 uniform float uTime;
+uniform vec2 uResolution;
 uniform bool uShowSpecular;
 uniform bool uShowNormals;
 uniform bool uShowDisplacement;
@@ -48,6 +48,7 @@ void main()
     vec3 normal = normalize(vNormal) * 0.5;
     vec3 viewDirection = (normalize(vPosition - cameraPosition));
     float speed = uSpeed;
+    vec2 uv = gl_FragCoord.xy / uResolution;
 
     float iorRRatio = 1.0 / uIorR; // Red Refractive Index
     float iorYRatio = 1.0 / uIorY; // Yellow Refractive Index
@@ -72,23 +73,23 @@ void main()
       vec3 refractVecB = refract(viewDirection, normal, iorBRatio);
       vec3 refractVecP = refract(viewDirection, normal, iorPRatio);
 
-      float r = texture2D(uTexture, vUv + refractVecR.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 0.5;
+      float r = texture2D(uTexture, uv + refractVecR.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 0.5;
 
-      float y = (texture2D(uTexture, vUv + refractVecY.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 2.0 +
-                texture2D(uTexture, vUv + refractVecY.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).y * 2.0 -
-                texture2D(uTexture, vUv + refractVecY.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).z) / 6.0;
+      float y = (texture2D(uTexture, uv + refractVecY.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 2.0 +
+                texture2D(uTexture, uv + refractVecY.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).y * 2.0 -
+                texture2D(uTexture, uv + refractVecY.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).z) / 6.0;
 
-      float g = texture2D(uTexture, vUv + refractVecG.xy * (uRefractPower + slide * 2.0) * uChromaticAberration).y * 0.5;
+      float g = texture2D(uTexture, uv + refractVecG.xy * (uRefractPower + slide * 2.0) * uChromaticAberration).y * 0.5;
 
-      float c = (texture2D(uTexture, vUv + refractVecC.xy * (uRefractPower + slide * 2.5) * uChromaticAberration).y * 2.0 +
-                texture2D(uTexture, vUv + refractVecC.xy * (uRefractPower + slide * 2.5) * uChromaticAberration).z * 2.0 -
-                texture2D(uTexture, vUv + refractVecC.xy * (uRefractPower + slide * 2.5) * uChromaticAberration).x) / 6.0;
+      float c = (texture2D(uTexture, uv + refractVecC.xy * (uRefractPower + slide * 2.5) * uChromaticAberration).y * 2.0 +
+                texture2D(uTexture, uv + refractVecC.xy * (uRefractPower + slide * 2.5) * uChromaticAberration).z * 2.0 -
+                texture2D(uTexture, uv + refractVecC.xy * (uRefractPower + slide * 2.5) * uChromaticAberration).x) / 6.0;
           
-      float b = texture2D(uTexture, vUv + refractVecB.xy * (uRefractPower + slide * 3.0) * uChromaticAberration).z * 0.5;
+      float b = texture2D(uTexture, uv + refractVecB.xy * (uRefractPower + slide * 3.0) * uChromaticAberration).z * 0.5;
 
-      float p = (texture2D(uTexture, vUv + refractVecP.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).z * 2.0 +
-                texture2D(uTexture, vUv + refractVecP.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 2.0 -
-                texture2D(uTexture, vUv + refractVecP.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).y) / 6.0;
+      float p = (texture2D(uTexture, uv + refractVecP.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).z * 2.0 +
+                texture2D(uTexture, uv + refractVecP.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 2.0 -
+                texture2D(uTexture, uv + refractVecP.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).y) / 6.0;
 
       // Combine the refracted color channels 
       float R = r + (2.0 * p + 2.0 * y - c) / 3.0;
@@ -116,7 +117,7 @@ void main()
     color.rgb += f * vec3(1.0);
 
     // Noise
-    // color += vec3(noise(vUv).x * 0.2);
+    // color = mix(vec3(noise(vUv).x), color, 0.9);
 
     gl_FragColor = vec4(color, 1.0);
 

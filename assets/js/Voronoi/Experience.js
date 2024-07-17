@@ -49,12 +49,13 @@ export default class Experience {
   }
 
   resize() {
-    if (!this.camera || !this.renderer) {
+    if (!this.camera || !this.renderer || !this.voronoi) {
       return;
     }
 
     this.camera.resize();
     this.renderer.resize();
+    this.voronoi.resize();
   }
 
   update() {

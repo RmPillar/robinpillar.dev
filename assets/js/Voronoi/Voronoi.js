@@ -36,9 +36,9 @@ export default class Voronoi {
       uniforms: {
         // Voronoi Uniforms
         uTexture: new THREE.Uniform(null),
-        uBorderThickness: new THREE.Uniform(0.01),
+        uBorderThickness: new THREE.Uniform(0.07),
         uBorderSoftness: new THREE.Uniform(0.25),
-        uGrainSize: new THREE.Uniform(5),
+        uGrainSize: new THREE.Uniform(7),
         uHeight: new THREE.Uniform(0.05),
         uSpeed: new THREE.Uniform(0.25),
         uShift: new THREE.Uniform(0.003),
@@ -50,8 +50,8 @@ export default class Voronoi {
         uIorC: new THREE.Uniform(2.3),
         uIorB: new THREE.Uniform(2.12),
         uIorP: new THREE.Uniform(2.27),
-        uRefractPower: new THREE.Uniform(0.3),
-        uChromaticAberration: new THREE.Uniform(1.0),
+        uRefractPower: new THREE.Uniform(0.12),
+        uChromaticAberration: new THREE.Uniform(0.33),
         uSaturation: new THREE.Uniform(1.1),
         // Light Uniforms
         uLight: new THREE.Uniform(new THREE.Vector3(1.0, 1.0, -1.0)),
@@ -60,6 +60,7 @@ export default class Voronoi {
         uFresnelPower: new THREE.Uniform(14),
         // Other Uniforms
         uTime: new THREE.Uniform(0),
+        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
         uShowNormals: new THREE.Uniform(false),
         uShowSpecular: new THREE.Uniform(false),
         uShowDisplacement: new THREE.Uniform(false),
@@ -72,6 +73,13 @@ export default class Voronoi {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
     this.scene.add(this.mesh);
+  }
+
+  resize() {
+    if (!this.material || !this.sizes) return;
+
+    this.material.uniforms.uResolution.value.x = this.sizes.width;
+    this.material.uniforms.uResolution.value.y = this.sizes.height;
   }
 
   setupDebug() {
@@ -122,6 +130,12 @@ export default class Voronoi {
     otherFolder.addBinding(this.material.uniforms.uShowNormals, "value", { label: "Normals" });
     otherFolder.addBinding(this.material.uniforms.uShowSpecular, "value", { label: "Specular" });
     otherFolder.addBinding(this.material.uniforms.uShowDisplacement, "value", { label: "Displacement" });
+    // otherFolder.addBinding(this.detail, "value", { min: 100, max: 1000, step: 50, label: "Detail" }).on("change", () => {
+    //   this.destroy();
+    //   this.addObjects();
+
+    //   this.debug.gui.refresh();
+    // });
   }
 
   update() {
