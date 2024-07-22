@@ -1,0 +1,88 @@
+import * as THREE from "three";
+import Experience from "./Experience";
+
+import vertexShader from "~/assets/js/Portal/shaders/portal/vertex.glsl";
+import fragmentShader from "~/assets/js/Portal/shaders/portal/fragment.glsl";
+
+export default class Portal {
+  constructor() {
+    this.experience = new Experience();
+    this.scene = this.experience.scene;
+    this.sizes = this.experience.sizes;
+    this.resources = this.experience.resources;
+    this.world = this.experience.world;
+    this.debug = this.experience.debug;
+
+    this.init();
+    this.initDebug();
+  }
+
+  init() {
+    this.geometry = new THREE.PlaneGeometry(1, 1, 200, 200);
+    this.material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        uTexture: new THREE.Uniform(null),
+        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
+        uMouse: new THREE.Uniform(this.experience.mouse),
+        uTime: new THREE.Uniform(0),
+        uSpeed: new THREE.Uniform(0.0005),
+        uFrequency: new THREE.Uniform(50),
+        uAmplitude: new THREE.Uniform(0.015),
+        uShift: new THREE.Uniform(0.008),
+        uIor: new THREE.Uniform(1.09),
+        uRefractPower: new THREE.Uniform(0.1),
+        // Light Uniforms
+        uLight: new THREE.Uniform(new THREE.Vector3(2.0, 2.0, -4.0)),
+        uDiffuseness: new THREE.Uniform(0.02),
+        uShininess: new THREE.Uniform(3.75),
+        uFresnelPower: new THREE.Uniform(7),
+      },
+      transparent: true,
+    });
+
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+
+    this.scene.add(this.mesh);
+  }
+
+  initDebug() {
+    const portalFolder = this.debug.gui.addFolder({
+      title: "Portal",
+    });
+
+    const lightFolder = this.debug.gui.addFolder({
+      title: "Light",
+    });
+
+    portalFolder.addBinding(this.material.uniforms.uSpeed, "value", { min: 0, max: 0.005, step: 0.0001, label: "Speed" });
+    portalFolder.addBinding(this.material.uniforms.uFrequency, "value", { min: 0, max: 100, step: 1, label: "Frequency" });
+    portalFolder.addBinding(this.material.uniforms.uAmplitude, "value", { min: 0, max: 0.1, step: 0.001, label: "Amplitude" });
+    portalFolder.addBinding(this.material.uniforms.uShift, "value", { min: 0, max: 0.02, step: 0.0001, label: "Shift" });
+    portalFolder.addBinding(this.material.uniforms.uIor, "value", { min: 1, max: 2, step: 0.01, label: "Ior" });
+    portalFolder.addBinding(this.material.uniforms.uRefractPower, "value", { min: 0, max: 1, step: 0.01, label: "Refract Power" });
+
+    lightFolder.addBinding(this.material.uniforms.uLight.value, "x", { label: "Light X" });
+    lightFolder.addBinding(this.material.uniforms.uLight.value, "y", { label: "Light Y" });
+    lightFolder.addBinding(this.material.uniforms.uLight.value, "z", { label: "Light Z" });
+    lightFolder.addBinding(this.material.uniforms.uDiffuseness, "value", { min: 0, max: 1, step: 0.01, label: "Diffuseness" });
+    lightFolder.addBinding(this.material.uniforms.uShininess, "value", { min: 0, max: 5, step: 0.01, label: "Shininess" });
+    lightFolder.addBinding(this.material.uniforms.uFresnelPower, "value", { min: 0, max: 100, step: 0.1, label: "Fresnel Power" });
+  }
+
+  resize() {
+    this.material.uniforms.uResolution.value.set(this.sizes.width, this.sizes.height);
+  }
+
+  update() {
+    if (!this.material || !this.experience.time || !this.world?.texture) {
+      return;
+    }
+
+    this.material.uniforms.uTime.value = this.experience.time.elapsed;
+    this.material.uniforms.uTexture.value = this.world.texture.texture;
+  }
+
+  destroy() {}
+}
