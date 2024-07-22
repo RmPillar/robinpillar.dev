@@ -56,7 +56,7 @@ export default class Voronoi {
         // Light Uniforms
         uLight: new THREE.Uniform(new THREE.Vector3(1.0, 1.0, -1.0)),
         uDiffuseness: new THREE.Uniform(0.1),
-        uShininess: new THREE.Uniform(1.25),
+        uShininess: new THREE.Uniform(2.5),
         uFresnelPower: new THREE.Uniform(14),
         // Other Uniforms
         uTime: new THREE.Uniform(0),

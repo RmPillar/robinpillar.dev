@@ -45,7 +45,7 @@ varying vec3 vPosition;
 
 void main()
 {
-    vec3 normal = normalize(vNormal) * 0.5;
+    vec3 normal = normalize(vNormal);
     vec3 viewDirection = (normalize(vPosition - cameraPosition));
     float speed = uSpeed;
     vec2 uv = gl_FragCoord.xy / uResolution;
