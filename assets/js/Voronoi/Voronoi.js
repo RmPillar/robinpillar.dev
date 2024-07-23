@@ -38,7 +38,7 @@ export default class Voronoi {
         uTexture: new THREE.Uniform(null),
         uBorderThickness: new THREE.Uniform(0.07),
         uBorderSoftness: new THREE.Uniform(0.25),
-        uGrainSize: new THREE.Uniform(7),
+        uGrainSize: new THREE.Uniform(5),
         uHeight: new THREE.Uniform(0.05),
         uSpeed: new THREE.Uniform(0.25),
         uShift: new THREE.Uniform(0.003),
