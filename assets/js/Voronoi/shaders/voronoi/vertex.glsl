@@ -55,10 +55,7 @@ void main() {
   vec3 toB = normalize(modelPositionB - modelPosition.xyz);
   vec3 computedNormal = cross(toA, toB);
 
-  // calculate normal matrix and use computed normal if needed
-  mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
-  vec3 transformedNormal = normalMatrix * computedNormal;
-
+  // Position
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;
   gl_Position = projectedPosition;
@@ -66,7 +63,5 @@ void main() {
   // Varyings
   vUv = uv;
   vNormal = computedNormal;
-  vCameraVector = normalize(modelPosition.xyz - cameraPosition);
-  vWorldNormal = normalize(transformedNormal);
   vPosition = modelPosition.xyz;
 }

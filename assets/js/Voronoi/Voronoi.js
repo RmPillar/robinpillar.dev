@@ -124,7 +124,7 @@ export default class Voronoi {
     lightFolder.addBinding(this.material.uniforms.uLight.value, "z", { label: "Light Z" });
     lightFolder.addBinding(this.material.uniforms.uDiffuseness, "value", { min: 0, max: 1, step: 0.01, label: "Diffuseness" });
     lightFolder.addBinding(this.material.uniforms.uShininess, "value", { min: 0, max: 5, step: 0.01, label: "Shininess" });
-    lightFolder.addBinding(this.material.uniforms.uFresnelPower, "value", { min: 0, max: 100, step: 0.1, label: "Fresnel Power" });
+    lightFolder.addBinding(this.material.uniforms.uFresnelPower, "value", { min: 0, max: 20, step: 0.1, label: "Fresnel Power" });
 
     otherFolder.addBinding(this.material, "wireframe", { label: "Wireframe" });
     otherFolder.addBinding(this.material.uniforms.uShowNormals, "value", { label: "Normals" });

@@ -3,6 +3,7 @@
 #include ../includes/saturate.glsl;
 #include ../includes/specular.glsl;
 #include ../includes/fresnel.glsl;
+#include ../includes/lygia/distort/grain.glsl;
 
 // Voronoi Uniforms
 uniform sampler2D uTexture;
@@ -39,8 +40,6 @@ uniform bool uShowDisplacement;
 // Varyings
 varying vec2 vUv;
 varying vec3 vNormal;
-varying vec3 vWorldNormal;
-varying vec3 vCameraVector;
 varying vec3 vPosition;
 
 void main()
@@ -117,7 +116,8 @@ void main()
     color.rgb += f * vec3(1.0);
 
     // Noise
-    // color = mix(vec3(noise(vUv).x), color, 0.9);
+    float grainVal = grain(vUv, uResolution);
+    color = mix(color, vec3(grainVal), 0.1);
 
     gl_FragColor = vec4(color, 1.0);
 

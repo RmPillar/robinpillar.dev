@@ -23,16 +23,17 @@ export default class Portal {
       vertexShader,
       fragmentShader,
       uniforms: {
+        // Portal Uniforms
         uTexture: new THREE.Uniform(null),
         uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
         uMouse: new THREE.Uniform(this.experience.mouse),
         uTime: new THREE.Uniform(0),
-        uSpeed: new THREE.Uniform(0.0005),
+        uSpeed: new THREE.Uniform(0.001),
         uFrequency: new THREE.Uniform(50),
         uAmplitude: new THREE.Uniform(0.015),
         uShift: new THREE.Uniform(0.008),
-        uIor: new THREE.Uniform(1.09),
-        uRefractPower: new THREE.Uniform(0.1),
+        uIor: new THREE.Uniform(1.1),
+        uRefractPower: new THREE.Uniform(0.12),
         // Light Uniforms
         uLight: new THREE.Uniform(new THREE.Vector3(2.0, 2.0, -4.0)),
         uDiffuseness: new THREE.Uniform(0.02),
