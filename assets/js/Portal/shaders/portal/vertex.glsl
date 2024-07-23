@@ -22,10 +22,12 @@ void main() {
   vec2 uvA = uv + vec2(shift, 0.0);
   vec2 uvB = uv + vec2(0.0, shift);
 
-  // Displace Z
+  // Compute distances
   float dist = distance(uv, vec2(0.5));
   float distA = distance(uvA, vec2(0.5));
   float distB = distance(uvB, vec2(0.5));
+
+  // Displace Z
   float waveZ = sin(dist * uFrequency - uTime * uSpeed) * uAmplitude;
   float waveZA = sin(distA * uFrequency - uTime * uSpeed) * uAmplitude;
   float waveZB = sin(distB * uFrequency - uTime * uSpeed) * uAmplitude;
@@ -39,11 +41,12 @@ void main() {
   vec3 toB = normalize(modelPositionB - modelPosition.xyz);
   vec3 computedNormal = cross(toA, toB);
 
-
+  // Position
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectedPosition = projectionMatrix * viewPosition;
   gl_Position = projectedPosition;
 
+  // Varyings
   vUv = uv;
   vNormal = computedNormal;
   vPosition = modelPosition.xyz;

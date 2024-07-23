@@ -3,10 +3,9 @@
 #include ../includes/fresnel.glsl;
 #include ../includes/specular.glsl;
 
+// Portal Uniforms
 uniform sampler2D uTexture;
-
 uniform vec2 uResolution;
-
 uniform float uTime;
 uniform float uIor;
 uniform float uRefractPower;
@@ -17,6 +16,7 @@ uniform float uShininess;
 uniform float uDiffuseness;
 uniform float uFresnelPower;
 
+// Varyings
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -26,8 +26,9 @@ void main () {
   vec3 normal = normalize(vNormal);
   vec3 viewDirection = (normalize(vPosition - cameraPosition));
 
-   float iorRatio = 1.0 / uIor;
+  float iorRatio = 1.0 / uIor; // Refractive Index
 
+  // Refraction
   vec3 refractVec = refract(viewDirection, normal, iorRatio);
 
   // Create circle
@@ -37,7 +38,7 @@ void main () {
   vec2 textureUv = objectCover(vUv, uResolution, vec2(1.0, 1.0));
   vec4 color = texture2D(uTexture, textureUv + refractVec.xy * uRefractPower);
 
-    // Specular
+  // Specular
   float specularLight = specular(normal, viewDirection, uLight, uShininess, uDiffuseness);
   color += specularLight;
 
@@ -46,5 +47,4 @@ void main () {
   color.rgb += f * vec3(1.0);
 
   gl_FragColor = vec4(color.rgb, strength);
-  // gl_FragColor = vec4(normal, strength);
 }
