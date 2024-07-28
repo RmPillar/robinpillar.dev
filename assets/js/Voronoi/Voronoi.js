@@ -60,7 +60,7 @@ export default class Voronoi {
         uFresnelPower: new THREE.Uniform(14),
         // Other Uniforms
         uTime: new THREE.Uniform(0),
-        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height)),
+        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height).multiplyScalar(Math.min(window.devicePixelRatio, 2))),
         uShowNormals: new THREE.Uniform(false),
         uShowSpecular: new THREE.Uniform(false),
         uShowDisplacement: new THREE.Uniform(false),
