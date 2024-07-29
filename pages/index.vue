@@ -1,4 +1,9 @@
-<script setup></script>
+<script setup>
+useHead({
+  title: "Robin Pillar: Creative Developer",
+  meta: [{ name: "description", content: "Hi I'm Robin, and this is my portfolio. Here, I share the new things I am learning about on shaders, ThreeJS and everything Frontend Development" }],
+});
+</script>
 
 <template>
   <main class="landing-page flex min-h-screen flex-col items-center justify-center bg-zinc-100">
