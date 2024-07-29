@@ -13,12 +13,29 @@ export default class Portal {
     this.world = this.experience.world;
     this.debug = this.experience.debug;
 
-    this.init();
-    this.initDebug();
+    this.resources.on("ready", () => {
+      this.init();
+    });
   }
 
   init() {
-    this.geometry = new THREE.PlaneGeometry(1, 1, 200, 200);
+    this.initModel();
+    this.initPortal();
+    this.initDebug();
+  }
+
+  initModel() {
+    const testLight = new THREE.AmbientLight(0x404040, 10);
+    this.scene.add(testLight);
+    const model = this.resources.items.model.scene;
+    model.scale.set(0.1, 0.1, 0.1);
+    model.position.set(0, -0.5, 0);
+
+    this.scene.add(model);
+  }
+
+  initPortal() {
+    this.geometry = new THREE.PlaneGeometry(1.1, 1.1, 200, 200);
     this.material = new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
@@ -45,6 +62,8 @@ export default class Portal {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
+    this.mesh.position.set(0.05, -0.1, -1.0);
+
     this.scene.add(this.mesh);
   }
 
@@ -55,6 +74,10 @@ export default class Portal {
 
     const lightFolder = this.debug.gui.addFolder({
       title: "Light",
+    });
+
+    const positionFolder = this.debug.gui.addFolder({
+      title: "Position",
     });
 
     portalFolder.addBinding(this.material.uniforms.uSpeed, "value", { min: 0, max: 0.005, step: 0.0001, label: "Speed" });
@@ -70,6 +93,8 @@ export default class Portal {
     lightFolder.addBinding(this.material.uniforms.uDiffuseness, "value", { min: 0, max: 1, step: 0.01, label: "Diffuseness" });
     lightFolder.addBinding(this.material.uniforms.uShininess, "value", { min: 0, max: 5, step: 0.01, label: "Shininess" });
     lightFolder.addBinding(this.material.uniforms.uFresnelPower, "value", { min: 0, max: 100, step: 0.1, label: "Fresnel Power" });
+
+    positionFolder.addBinding(this.mesh, "position");
   }
 
   resize() {

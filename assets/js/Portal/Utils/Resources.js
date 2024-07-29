@@ -22,7 +22,7 @@ export default class Resources extends EventEmitter {
     this.loaders = {};
     this.loaders.gltfLoader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/static/draco/");
+    dracoLoader.setDecoderPath("/draco/");
     this.loaders.gltfLoader.setDRACOLoader(dracoLoader);
 
     this.loaders.textureLoader = new THREE.TextureLoader();
@@ -30,12 +30,7 @@ export default class Resources extends EventEmitter {
   }
 
   startLoading() {
-    if (
-      !this.loaders?.gltfLoader ||
-      !this.loaders?.textureLoader ||
-      !this.loaders?.cubeTextureLoader
-    )
-      return;
+    if (!this.loaders?.gltfLoader || !this.loaders?.textureLoader || !this.loaders?.cubeTextureLoader) return;
     // Load each source
     for (const source of this.sources) {
       if (source.type === "gltfModel" && typeof source.path === "string") {
@@ -46,10 +41,7 @@ export default class Resources extends EventEmitter {
         this.loaders.textureLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
-      } else if (
-        source.type === "cubeTexture" &&
-        typeof source.path === "object"
-      ) {
+      } else if (source.type === "cubeTexture" && typeof source.path === "object") {
         this.loaders.cubeTextureLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
