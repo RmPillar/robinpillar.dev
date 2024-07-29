@@ -13,8 +13,8 @@ export default class Camera {
     this.canvas = this.experience.canvas;
     this.renderer = this.experience.renderer;
 
-    // this.setOrthographicCamera();
-    this.setPerspectiveCamera();
+    this.setOrthographicCamera();
+    // this.setPerspectiveCamera();
   }
 
   setOrthographicCamera() {
@@ -61,8 +61,8 @@ export default class Camera {
   }
 
   resize() {
-    // this.resizeOrthographicCamera();
-    this.resizePerspectiveCamera();
+    this.resizeOrthographicCamera();
+    // this.resizePerspectiveCamera();
   }
 
   update() {
