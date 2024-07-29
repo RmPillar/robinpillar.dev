@@ -7,6 +7,7 @@ export default {
     extend: {
       fontFamily: {
         mosk: ["Mosk", ...defaultTheme.fontFamily.sans],
+        biggerDisplay: ["BiggerDisplay", ...defaultTheme.fontFamily.sans],
       },
     },
   },

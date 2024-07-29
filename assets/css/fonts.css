@@ -5,3 +5,11 @@
   font-display: swap;
   src: url("~/assets/fonts/mosk/mosk-ultra-bold-900.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "BiggerDisplay";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("~/assets/fonts/bigger-display/BiggerDisplay.otf") format("opentype");
+}
