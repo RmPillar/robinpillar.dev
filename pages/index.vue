@@ -20,6 +20,7 @@ useHead({
         </span>
       </a>
     </div>
+    <Loader />
   </main>
 </template>
 
