@@ -1,13 +1,14 @@
 import * as THREE from "three";
 import Experience from "./Experience";
+import Camera from "./Camera";
 
 import gsap from "gsap";
 
 export default class World {
   constructor() {
     this.experience = new Experience();
-    // this.camera = new Camera();
-    this.camera = this.experience.camera;
+    this.camera = new Camera(false);
+    // this.camera = this.experience.camera;
     this.scene = new THREE.Scene();
     this.sizes = this.experience.sizes;
     this.resources = this.experience.resources;
@@ -68,23 +69,21 @@ export default class World {
   }
 
   update() {
-    if (this.cube) {
-      this.cube.rotation.x += 0.01;
-      this.cube.rotation.y += 0.01;
-      this.cube.rotation.z += 0.01;
-    }
+    if (!this.cube || !this.cone || !this.torus || !this.camera) return;
 
-    if (this.cone) {
-      this.cone.rotation.x -= 0.01;
-      this.cone.rotation.y += 0.01;
-      this.cone.rotation.z -= 0.01;
-    }
+    this.cube.rotation.x += 0.01;
+    this.cube.rotation.y += 0.01;
+    this.cube.rotation.z += 0.01;
 
-    if (this.torus) {
-      this.torus.rotation.x += 0.01;
-      this.torus.rotation.y -= 0.01;
-      this.torus.rotation.z += 0.01;
-    }
+    this.cone.rotation.x -= 0.01;
+    this.cone.rotation.y += 0.01;
+    this.cone.rotation.z -= 0.01;
+
+    this.torus.rotation.x += 0.01;
+    this.torus.rotation.y -= 0.01;
+    this.torus.rotation.z += 0.01;
+
+    this.camera.update();
 
     // this.xTween(this.mouse.x * 0.3);
     // this.yTween(this.mouse.y * 0.15);

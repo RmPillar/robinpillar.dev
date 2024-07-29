@@ -3,7 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Experience from "./Experience";
 
 export default class Camera {
-  constructor(controls = true) {
+  constructor(zoom = true) {
     this.experience = new Experience();
     this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
@@ -12,9 +12,7 @@ export default class Camera {
 
     this.setInstance();
 
-    if (controls) {
-      this.setControls();
-    }
+    this.setControls(zoom);
   }
 
   setInstance() {
@@ -27,13 +25,14 @@ export default class Camera {
     this.scene.add(this.instance);
   }
 
-  setControls() {
+  setControls(enableZoom) {
     if (!this.instance || !this.canvas) {
       return;
     }
 
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
+    this.controls.enableZoom = enableZoom;
   }
 
   resize() {
