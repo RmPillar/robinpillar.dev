@@ -5,8 +5,8 @@ dependencies:
     specifier: ^2.3.0
     version: 2.3.0
   gsap:
-    specifier: ^3.12.5
-    version: 3.12.5
+    specifier: npm:@gsap/business@^3.12.5
+    version: /@gsap/business@3.12.5
   nuxt:
     specifier: ^3.12.2
     version: 3.12.2(@opentelemetry/api@1.9.0)(eslint@9.5.0)(typescript@5.5.2)(vite@5.3.1)
@@ -940,6 +940,10 @@ packages:
       long: 5.2.3
       protobufjs: 7.3.2
       yargs: 17.7.2
+    dev: false
+
+  /@gsap/business@3.12.5:
+    resolution: {integrity: sha512-MaoS/j4c+ZHCzkA0C1hWah3E0PTBOaevgJCD4ccad7FePaFcVyC1RSXi67GZQNntMTb03crXB+8CKXL490L6GQ==}
     dev: false
 
   /@humanwhocodes/module-importer@1.0.1:
@@ -4445,10 +4449,6 @@ packages:
   /graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
-
-  /gsap@3.12.5:
-    resolution: {integrity: sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==}
-    dev: false
 
   /gzip-size@7.0.0:
     resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}

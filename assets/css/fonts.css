@@ -13,3 +13,13 @@
   font-display: swap;
   src: url("~/assets/fonts/bigger-display/BiggerDisplay.otf") format("opentype");
 }
+
+@font-face {
+  font-family: "Argesta Hairline";
+  src:
+    url("~/assets/fonts/argesta/argestahairline-regular-webfont.woff2") format("woff2"),
+    url("~/assets/fonts/argesta/argestahairline-regular-webfont.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

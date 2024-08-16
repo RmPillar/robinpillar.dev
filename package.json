@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "fontfaceobserver": "^2.3.0",
-    "gsap": "^3.12.5",
+    "gsap": "npm:@gsap/business@^3.12.5",
     "nuxt": "^3.12.2",
     "three": "^0.165.0",
     "three-msdf-text-utils": "^1.1.7",
