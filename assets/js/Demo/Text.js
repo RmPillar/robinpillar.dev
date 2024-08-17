@@ -27,7 +27,7 @@ export default class Text {
 
     this.material = new MSDFTextMaterial();
     this.material.uniforms.uMap.value = this.atlas;
-    this.material.uniforms.uColor.value = new THREE.Color(0xf8fafc);
+    this.material.uniforms.uColor.value = new THREE.Color(0xffafafa);
     this.material.side = THREE.DoubleSide;
 
     this.heading = this.createHeading();
