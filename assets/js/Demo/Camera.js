@@ -44,6 +44,7 @@ export default class Camera {
     this.controls.minPolarAngle = 70 * (Math.PI / 180);
     this.controls.maxAzimuthAngle = 20 * (Math.PI / 180);
     this.controls.minAzimuthAngle = -20 * (Math.PI / 180);
+    this.controls.enableZoom = false;
   }
 
   resizeOrthographicCamera() {

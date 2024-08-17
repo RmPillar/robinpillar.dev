@@ -28,5 +28,24 @@ onBeforeUnmount(() => {
       ref="canvasRef"
       class="absolute inset-0 h-screen w-screen"
     />
+
+    <div class="bottom-50 left-50 absolute flex items-center gap-28">
+      <a
+        href="https://github.com/RmPillar"
+        target="_blank"
+      >
+        <SvgGithub class="w-50 min-w-50 block text-zinc-50" />
+      </a>
+
+      <a href="mailto:robin@robinpillar.dev">
+        <SvgEmail class="block w-60 min-w-60 text-zinc-50" />
+      </a>
+    </div>
   </main>
 </template>
+
+<style lang="postcss">
+body {
+  overscroll-behavior: none;
+}
+</style>
