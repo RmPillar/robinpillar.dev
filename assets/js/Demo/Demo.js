@@ -28,18 +28,19 @@ export default class Demo {
       uniforms: {
         uTexture: new THREE.Uniform(null),
         // Refraction Uniforms
-        uSamples: new THREE.Uniform(16),
+        uSamples: new THREE.Uniform(32),
         uIorR: new THREE.Uniform(1.1),
-        uIorY: new THREE.Uniform(1.13),
-        uIorG: new THREE.Uniform(1.18),
-        uIorC: new THREE.Uniform(1.3),
-        uIorB: new THREE.Uniform(1.12),
-        uIorP: new THREE.Uniform(1.17),
-        uRefractPower: new THREE.Uniform(0.11),
+        uIorY: new THREE.Uniform(1.08),
+        uIorG: new THREE.Uniform(1.11),
+        uIorC: new THREE.Uniform(1.09),
+        uIorB: new THREE.Uniform(1.085),
+        uIorP: new THREE.Uniform(1.1),
+        uRefractPower: new THREE.Uniform(0.05),
         uChromaticAberration: new THREE.Uniform(0.25),
-        uSaturation: new THREE.Uniform(1.1),
+        uSaturation: new THREE.Uniform(1.035),
         // Light Uniforms
         uLight: new THREE.Uniform(new THREE.Vector3(1.0, 1.0, -1.0)),
+        uLightColor: new THREE.Uniform(new THREE.Color(0xe0e7ff)),
         uDiffuseness: new THREE.Uniform(0.05),
         uShininess: new THREE.Uniform(3),
         uFresnelPower: new THREE.Uniform(20),
@@ -51,14 +52,20 @@ export default class Demo {
       fragmentShader,
     });
 
-    this.createCube([0, 1, 0.5], [0.2, 0.2, 0.2], -0.0025);
-    this.createCube([-0.2, 0.8, 0.1], [0.15, 0.15, 0.15], -0.0015);
-    this.createCone([0.6, 0.9, -0.1], 0.1, 0.2, 16, -0.00375);
-    this.createCone([-0.6, 0.95, 0], 0.1, 0.2, 16, -0.00275);
-    this.createSuzanne([0.3, 1.1, 0.2], 0.1, -0.002);
-    this.createCube([-0.3, 1.2, 0.4], [0.1, 0.1, 0.1], -0.00125);
-    this.createCube([-0.6, 1.15, 0.6], [0.125, 0.125, 0.125], -0.0015);
-    this.createCone([1, 0.95, -0.1], 0.15, 0.3, 16, -0.00225);
+    this.createCube(new THREE.Vector3(0, 1, 0.5), [0.2, 0.2, 0.2], -0.0025);
+    this.createCube(new THREE.Vector3(-0.7, 0.8, 0.1), [0.15, 0.15, 0.15], -0.0015);
+    this.createCube(new THREE.Vector3(-0.4, 1.5, 0.3), [0.125, 0.125, 0.125], -0.003);
+    this.createCube(new THREE.Vector3(0.5, 1.45, -0.2), [0.175, 0.175, 0.175], -0.00275);
+    this.createCube(new THREE.Vector3(-0.3, 1.2, 0.4), [0.1, 0.1, 0.1], -0.00125);
+    this.createCube(new THREE.Vector3(-0.6, 1.15, 0.6), [0.125, 0.125, 0.125], -0.0015);
+
+    this.createCone(new THREE.Vector3(0.6, 0.9, -0.1), 0.1, 0.2, 16, -0.00375);
+    this.createCone(new THREE.Vector3(-0.5, 0.95, 0), 0.1, 0.2, 16, -0.00275);
+    this.createCone(new THREE.Vector3(1, 0.95, -0.1), 0.15, 0.3, 16, -0.00225);
+    this.createCone(new THREE.Vector3(0.8, 1.6, -0.3), 0.15, 0.3, 16, -0.004);
+
+    this.createSuzanne(new THREE.Vector3(0.3, 1.1, 0.2), 0.1, -0.002);
+    this.createSuzanne(new THREE.Vector3(-0.35, 2.5, -0.3), 0.2, -0.003);
   }
 
   createCube(startPosition, size, speed) {
@@ -66,7 +73,7 @@ export default class Demo {
 
     const mesh = new THREE.Mesh(geometry, this.refractionMaterial);
 
-    mesh.position.set(...startPosition);
+    mesh.position.set(startPosition.x, startPosition.y, startPosition.z);
 
     this.scene.add(mesh);
 
@@ -78,17 +85,20 @@ export default class Demo {
       mesh,
       speed,
       rotation,
+      startPosition,
     });
   }
 
   createSuzanne(startPosition, size, speed) {
-    const model = this.resources.items.suzanne.scene;
+    const model = this.resources.items.suzanne.scene.clone();
+
+    console.log(model);
 
     model.traverse((child) => {
       if (child.isMesh) child.material = this.refractionMaterial;
     });
 
-    model.position.set(...startPosition);
+    model.position.set(startPosition.x, startPosition.y, startPosition.z);
     model.scale.set(size, size, size);
 
     const rotation = new THREE.Vector3((Math.random() - 0.5) * 0.025, (Math.random() - 0.5) * 0.025, (Math.random() - 0.5) * 0.025);
@@ -100,6 +110,7 @@ export default class Demo {
       mesh: model,
       speed,
       rotation,
+      startPosition,
     });
   }
 
@@ -108,7 +119,7 @@ export default class Demo {
 
     const mesh = new THREE.Mesh(geometry, this.refractionMaterial);
 
-    mesh.position.set(...startPosition);
+    mesh.position.set(startPosition.x, startPosition.y, startPosition.z);
 
     const rotation = new THREE.Vector3((Math.random() - 0.5) * 0.025, (Math.random() - 0.5) * 0.025, (Math.random() - 0.5) * 0.025);
 
@@ -120,6 +131,7 @@ export default class Demo {
       mesh,
       speed,
       rotation,
+      startPosition,
     });
   }
 
@@ -132,15 +144,15 @@ export default class Demo {
   update() {
     if (!this.refractionMaterial || !this.refraction) return;
 
-    this.objects.forEach(({ mesh, speed, rotation }) => {
+    this.objects.forEach(({ mesh, speed, rotation, startPosition }) => {
       mesh.rotation.y += rotation.y;
       mesh.rotation.x += rotation.x;
       mesh.rotation.z += rotation.z;
 
       mesh.position.y += speed;
 
-      if (mesh.position.y < -1) {
-        mesh.position.y = 1;
+      if (mesh.position.y < -1.2) {
+        mesh.position.y = startPosition.y;
       }
     });
 
@@ -149,8 +161,6 @@ export default class Demo {
 
   resize() {
     if (!this.refractionMaterial || !this.sizes) return;
-
-    console.log("resize", this.sizes.width, this.sizes.height);
 
     const newSize = new THREE.Vector2(this.sizes.width, this.sizes.height).multiplyScalar(this.sizes.pixelRatio);
 

@@ -20,6 +20,7 @@ uniform int uSamples;
 
 // Light Uniforms
 uniform vec3 uLight;
+uniform vec3 uLightColor;
 uniform float uShininess;
 uniform float uDiffuseness;
 uniform float uFresnelPower;
@@ -102,11 +103,11 @@ void main()
 
     // Specular
     float specularLight = specular(normal, viewDirection, uLight, uShininess, uDiffuseness);
-    color += specularLight;
+    color += specularLight * uLightColor;
 
     // Fresnel
     float f = fresnel(viewDirection, normal, uFresnelPower);
-    color.rgb += f * vec3(1.0);
+    color.rgb += f * uLightColor;
 
     gl_FragColor = vec4(color, 1.0);
 }
