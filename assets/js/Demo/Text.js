@@ -95,11 +95,11 @@ export default class Text {
   }
 
   get headingPosition() {
-    return this.sizes.width > 1024 ? new THREE.Vector3(this.sizes.width * (-2.15 / 1920), -0.2, -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.2, -1) : new THREE.Vector3(-0.525, -0.2, -1);
+    return this.sizes.width > 1024 ? new THREE.Vector3(this.sizes.width * (-2.15 / 1920), -0.2, -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.2, -1) : new THREE.Vector3(-0.525, -0.25, -1);
   }
 
   get subheadingPosition() {
-    return this.sizes.width > 1024 ? new THREE.Vector3(this.sizes.width * (-2.15 / 1920), this.clamp(this.sizes.width * (-0.5 / 1920), -0.7, -0.4), -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.4, -1) : new THREE.Vector3(-0.525, -0.4, -1);
+    return this.sizes.width > 1024 ? new THREE.Vector3(this.sizes.width * (-2.15 / 1920), this.clamp(this.sizes.width * (-0.5 / 1920), -0.7, -0.4), -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.4, -1) : new THREE.Vector3(-0.525, -0.45, -1);
   }
 
   get headingWidth() {
