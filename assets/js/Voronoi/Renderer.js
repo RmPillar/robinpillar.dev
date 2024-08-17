@@ -29,7 +29,7 @@ export default class Renderer {
       // clearColor: 0x000000,
     });
     this.instance.setSize(this.sizes.width, this.sizes.height);
-    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
+    this.instance.setPixelRatio(this.sizes.pixelRatio);
   }
 
   resize() {
@@ -38,7 +38,7 @@ export default class Renderer {
     }
 
     this.instance.setSize(this.sizes.width, this.sizes.height);
-    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
+    this.instance.setPixelRatio(this.sizes.pixelRatio);
   }
 
   update() {

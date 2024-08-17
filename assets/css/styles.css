@@ -2,6 +2,7 @@
 
 @import "layout.css";
 @import "fonts.css";
+@import "typography.css";
 
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";

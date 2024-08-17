@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { RectAreaLightHelper } from "three/addons/helpers/RectAreaLightHelper.js";
 import Experience from "./Experience";
 
 import vertexShader from "~/assets/js/Portal/shaders/portal/vertex.glsl";
@@ -20,18 +21,37 @@ export default class Portal {
 
   init() {
     this.initModel();
+    this.initLights();
     this.initPortal();
     this.initDebug();
   }
 
   initModel() {
-    const testLight = new THREE.AmbientLight(0x404040, 10);
-    this.scene.add(testLight);
-    const model = this.resources.items.model.scene;
-    model.scale.set(0.1, 0.1, 0.1);
-    model.position.set(0, -0.5, 0);
+    // const testLight = new THREE.AmbientLight(0x404040, 10);
+    // this.scene.add(testLight);
 
-    this.scene.add(model);
+    this.model = this.resources.items.model.scene;
+    this.model.scale.set(0.1, 0.1, 0.1);
+    this.model.position.set(0, -0.5, 0);
+
+    this.scene.add(this.model);
+  }
+
+  initLights() {
+    this.spotLight = new THREE.SpotLight(0xffffff, 20);
+
+    this.spotLight.position.set(0, 2, 3);
+    this.spotLight.lookAt(0, 0, 0);
+
+    this.spotLight.castShadow = true;
+    this.spotLight.shadow.mapSize.width = 1024;
+    this.spotLight.shadow.mapSize.height = 1024;
+
+    this.spotLight.shadow.camera.near = 5;
+    this.spotLight.shadow.camera.far = 100;
+    this.spotLight.shadow.camera.fov = 3000;
+
+    this.scene.add(this.spotLight);
   }
 
   initPortal() {

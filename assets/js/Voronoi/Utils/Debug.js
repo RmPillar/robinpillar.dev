@@ -5,6 +5,8 @@ export default class Debug {
     this.gui = new Pane({
       title: "Parameters",
     });
+
+    this.gui.expanded = false;
   }
 
   destroy() {

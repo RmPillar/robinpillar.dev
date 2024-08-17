@@ -22,6 +22,8 @@ export default class Text {
     this.geometry = new MSDFTextGeometry({
       text: "VORONOI",
       font: this.font.data,
+      letterSpacing: 1,
+      align: "center",
     });
 
     this.material = new MSDFTextMaterial();
@@ -31,8 +33,8 @@ export default class Text {
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-    this.mesh.scale.set(-0.02, 0.02, 0.02);
-    this.mesh.position.set(-2, -0.15, -1);
+    this.mesh.scale.set(-0.045, 0.045, 0.045);
+    this.mesh.position.set(-2.4, -0.5, -1);
     this.mesh.rotation.set(Math.PI, Math.PI, -3 * (Math.PI / 180));
 
     this.scene.add(this.mesh);

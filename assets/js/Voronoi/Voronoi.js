@@ -60,7 +60,7 @@ export default class Voronoi {
         uFresnelPower: new THREE.Uniform(14),
         // Other Uniforms
         uTime: new THREE.Uniform(0),
-        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height).multiplyScalar(Math.min(window.devicePixelRatio, 2))),
+        uResolution: new THREE.Uniform(new THREE.Vector2(this.sizes.width, this.sizes.height).multiplyScalar(this.sizes.pixelRatio)),
         uShowNormals: new THREE.Uniform(false),
         uShowSpecular: new THREE.Uniform(false),
         uShowDisplacement: new THREE.Uniform(false),
@@ -130,12 +130,6 @@ export default class Voronoi {
     otherFolder.addBinding(this.material.uniforms.uShowNormals, "value", { label: "Normals" });
     otherFolder.addBinding(this.material.uniforms.uShowSpecular, "value", { label: "Specular" });
     otherFolder.addBinding(this.material.uniforms.uShowDisplacement, "value", { label: "Displacement" });
-    // otherFolder.addBinding(this.detail, "value", { min: 100, max: 1000, step: 50, label: "Detail" }).on("change", () => {
-    //   this.destroy();
-    //   this.addObjects();
-
-    //   this.debug.gui.refresh();
-    // });
   }
 
   update() {
