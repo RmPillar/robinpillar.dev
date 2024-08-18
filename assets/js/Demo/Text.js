@@ -87,19 +87,19 @@ export default class Text {
   }
 
   get headingScale() {
-    return this.sizes.width > 1024 ? this.sizes.width * (0.025 / 1920) : this.sizes.width > 1024 ? 0.0175 : 0.0125;
+    return this.sizes.width > 1024 ? this.clamp(this.sizes.width * (0.025 / 1920), 0.1333, 0.025) : this.sizes.width > 1024 ? 0.0175 : 0.0125;
   }
 
   get subheadingScale() {
-    return this.sizes.width > 1024 ? this.sizes.width * (0.00625 / 1920) : this.sizes.width > 1024 ? 0.004375 : 0.003125;
+    return this.sizes.width > 1024 ? this.clamp(this.sizes.width * (0.00625 / 1920), 0.00333, 0.00625) : this.sizes.width > 1024 ? 0.004375 : 0.003125;
   }
 
   get headingPosition() {
-    return this.sizes.width > 1024 ? new THREE.Vector3(this.sizes.width * (-2.15 / 1920), -0.2, -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.2, -1) : new THREE.Vector3(-0.525, -0.25, -1);
+    return this.sizes.width > 1024 ? new THREE.Vector3(this.clamp(this.sizes.width * (-2.15 / 1920), -2.15, -1.147), -0.2, -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.2, -1) : new THREE.Vector3(-0.525, -0.25, -1);
   }
 
   get subheadingPosition() {
-    return this.sizes.width > 1024 ? new THREE.Vector3(this.sizes.width * (-2.15 / 1920), this.clamp(this.sizes.width * (-0.5 / 1920), -0.7, -0.4), -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.4, -1) : new THREE.Vector3(-0.525, -0.45, -1);
+    return this.sizes.width > 1024 ? new THREE.Vector3(this.clamp(this.sizes.width * (-2.15 / 1920), -2.15, -1.147), this.clamp(this.sizes.width * (-0.5 / 1920), -0.5, -0.4), -1) : this.sizes.width > 1024 ? new THREE.Vector3(-1.5, -0.4, -1) : new THREE.Vector3(-0.525, -0.45, -1);
   }
 
   get headingWidth() {

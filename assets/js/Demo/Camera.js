@@ -31,8 +31,6 @@ export default class Camera {
     this.instance = new THREE.PerspectiveCamera(70, this.sizes.width / this.sizes.height, 0.01, 10);
     this.instance.position.set(0, 0, 1);
     this.scene.add(this.instance);
-
-    this.setControls();
   }
 
   setControls() {
@@ -40,11 +38,6 @@ export default class Camera {
 
     this.controls = new OrbitControls(this.instance, this.canvas);
     this.controls.enableDamping = true;
-    this.controls.maxPolarAngle = 110 * (Math.PI / 180);
-    this.controls.minPolarAngle = 70 * (Math.PI / 180);
-    this.controls.maxAzimuthAngle = 20 * (Math.PI / 180);
-    this.controls.minAzimuthAngle = -20 * (Math.PI / 180);
-    this.controls.enableZoom = false;
   }
 
   resizeOrthographicCamera() {
