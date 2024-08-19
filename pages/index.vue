@@ -29,16 +29,16 @@ onBeforeUnmount(() => {
       class="absolute inset-0 h-screen w-screen"
     />
 
-    <div class="bottom-50 left-50 absolute flex items-center gap-28">
+    <div class="lg:bottom-50 lg:left-50 absolute bottom-36 left-36 flex items-center gap-20 lg:gap-28">
       <a
         href="https://github.com/RmPillar"
         target="_blank"
       >
-        <SvgGithub class="w-50 min-w-50 block text-zinc-50" />
+        <SvgGithub class="lg:w-50 lg:min-w-50 block w-36 min-w-36 text-zinc-50" />
       </a>
 
       <a href="mailto:robin@robinpillar.dev">
-        <SvgEmail class="block w-60 min-w-60 text-zinc-50" />
+        <SvgEmail class="block w-40 min-w-40 text-zinc-50 lg:w-60 lg:min-w-60" />
       </a>
     </div>
   </main>
