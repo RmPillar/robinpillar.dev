@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { RectAreaLightHelper } from "three/addons/helpers/RectAreaLightHelper.js";
 import Experience from "./Experience";
 
 import vertexShader from "~/assets/js/Portal/shaders/portal/vertex.glsl";
@@ -21,16 +20,38 @@ export default class Portal {
 
   init() {
     this.initModel();
-    this.initLights();
+    // this.initLights();
     this.initPortal();
-    this.initDebug();
+    // this.initDebug();
   }
 
   initModel() {
     // const testLight = new THREE.AmbientLight(0x404040, 10);
     // this.scene.add(testLight);
+    console.log(this.resources);
+
+    const plantsPortalColumnsTorches = this.resources.items["plants-portal-columns-torches"];
+    const wallsRocksPaving = this.resources.items["walls-rocks-paving"];
+
+    plantsPortalColumnsTorches.flipY = false;
+    plantsPortalColumnsTorches.colorSpace = THREE.SRGBColorSpace;
+    wallsRocksPaving.flipY = false;
+    wallsRocksPaving.colorSpace = THREE.SRGBColorSpace;
+
+    this.materialOne = new THREE.MeshBasicMaterial({ map: plantsPortalColumnsTorches });
+    this.materialTwo = new THREE.MeshBasicMaterial({ map: wallsRocksPaving });
+
+    console.log(this.resources.items["plants-portal-columns-torches"]);
 
     this.model = this.resources.items.model.scene;
+    this.model.traverse((child) => {
+      if (child?.name === "plants-portals-columns-torches") {
+        child.material = this.materialOne;
+      } else if (child?.name === "walls-rocks-pavings") {
+        child.material = this.materialTwo;
+      }
+    });
+
     this.model.scale.set(0.1, 0.1, 0.1);
     this.model.position.set(0, -0.5, 0);
 
