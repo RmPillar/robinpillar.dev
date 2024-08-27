@@ -19,14 +19,61 @@ export default class World {
       y: 0,
     };
 
-    this.initWorld();
-    this.setupCameraTweens();
+    this.texture = new THREE.WebGLRenderTarget(this.sizes.width, this.sizes.height);
+
+    this.resources.on("ready", () => {
+      // this.init();
+      this.initModel();
+    });
   }
 
-  initWorld() {
-    this.addObjects();
+  init() {
+    // this.initModel();
+  }
 
-    this.texture = new THREE.WebGLRenderTarget(this.sizes.width, this.sizes.height);
+  initModel() {
+    // const testLight = new THREE.AmbientLight(0x404040, 10);
+    // this.scene.add(testLight);
+
+    const trees = this.resources.items.trees;
+    const rocksPlantsPortal = this.resources.items["rocks-plants-portal"];
+    const ground = this.resources.items["ground"];
+    const redTree = this.resources.items["red-tree"];
+
+    trees.flipY = false;
+    // trees.colorSpace = THREE.SRGBColorSpace;
+    rocksPlantsPortal.flipY = false;
+    // rocksPlantsPortal.colorSpace = THREE.SRGBColorSpace;
+    ground.flipY = false;
+    // ground.colorSpace = THREE.SRGBColorSpace;
+    ground.transparent = true;
+    redTree.flipY = false;
+    // redTree.colorSpace = THREE.SRGBColorSpace;
+
+    this.materialOne = new THREE.MeshBasicMaterial({ map: trees });
+    this.materialTwo = new THREE.MeshBasicMaterial({ map: rocksPlantsPortal });
+    this.materialThree = new THREE.MeshBasicMaterial({ map: ground });
+    this.materialFour = new THREE.MeshBasicMaterial({ map: redTree });
+
+    this.model = this.resources.items["forest-model"].scene;
+    console.log(this.model);
+    this.model.traverse((child) => {
+      if (child?.name === "trees") {
+        child.material = this.materialOne;
+      } else if (child?.name === "rocks-plants-portal") {
+        child.material = this.materialTwo;
+      } else if (child?.name === "ground") {
+        child.material = this.materialThree;
+      } else if (child?.name === "red-tree") {
+        child.material = this.materialFour;
+      }
+    });
+
+    this.model.scale.set(0.1, 0.1, 0.1);
+    this.model.position.set(-7, -0.15, 0);
+    this.model.rotation.set(0, Math.PI, 0);
+
+    this.scene.add(this.model);
   }
 
   addObjects() {
@@ -69,19 +116,19 @@ export default class World {
   }
 
   update() {
-    if (!this.cube || !this.cone || !this.torus || !this.camera) return;
+    if (!this.camera) return;
 
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
-    this.cube.rotation.z += 0.01;
+    // this.cube.rotation.x += 0.01;
+    // this.cube.rotation.y += 0.01;
+    // this.cube.rotation.z += 0.01;
 
-    this.cone.rotation.x -= 0.01;
-    this.cone.rotation.y += 0.01;
-    this.cone.rotation.z -= 0.01;
+    // this.cone.rotation.x -= 0.01;
+    // this.cone.rotation.y += 0.01;
+    // this.cone.rotation.z -= 0.01;
 
-    this.torus.rotation.x += 0.01;
-    this.torus.rotation.y -= 0.01;
-    this.torus.rotation.z += 0.01;
+    // this.torus.rotation.x += 0.01;
+    // this.torus.rotation.y -= 0.01;
+    // this.torus.rotation.z += 0.01;
 
     this.camera.update();
 
@@ -90,13 +137,5 @@ export default class World {
     // this.camera.instance.lookAt(this.group.position);
   }
 
-  destroy() {
-    this.scene.remove(this.cube);
-    this.scene.remove(this.cone);
-    this.scene.remove(this.torus);
-
-    this.cube = null;
-    this.cone = null;
-    this.torus = null;
-  }
+  destroy() {}
 }

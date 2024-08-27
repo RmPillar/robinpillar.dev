@@ -28,7 +28,6 @@ export default class Portal {
   initModel() {
     // const testLight = new THREE.AmbientLight(0x404040, 10);
     // this.scene.add(testLight);
-    console.log(this.resources);
 
     const plantsPortalColumnsTorches = this.resources.items["plants-portal-columns-torches"];
     const wallsRocksPaving = this.resources.items["walls-rocks-paving"];
@@ -40,8 +39,6 @@ export default class Portal {
 
     this.materialOne = new THREE.MeshBasicMaterial({ map: plantsPortalColumnsTorches });
     this.materialTwo = new THREE.MeshBasicMaterial({ map: wallsRocksPaving });
-
-    console.log(this.resources.items["plants-portal-columns-torches"]);
 
     this.model = this.resources.items.model.scene;
     this.model.traverse((child) => {

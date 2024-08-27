@@ -51,6 +51,8 @@ export default class Renderer {
 
     this.instance.setClearColor(0xf9fafb, 1);
 
+    console.log("hello");
+
     this.instance.setRenderTarget(this.world.texture);
     this.instance.render(this.world.scene, this.world.camera.instance);
     this.instance.setRenderTarget(null);
