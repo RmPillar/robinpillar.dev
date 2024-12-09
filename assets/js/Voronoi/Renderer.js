@@ -25,7 +25,8 @@ export default class Renderer {
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: true,
+      powerPreference: "high-performance",
+
       // clearColor: 0x000000,
     });
     this.instance.setSize(this.sizes.width, this.sizes.height);
