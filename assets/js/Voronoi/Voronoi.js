@@ -51,7 +51,7 @@ export default class Voronoi {
         uIorB: new THREE.Uniform(2.12),
         uIorP: new THREE.Uniform(2.27),
         uRefractPower: new THREE.Uniform(0.12),
-        uChromaticAberration: new THREE.Uniform(0.33),
+        uChromaticAberration: new THREE.Uniform(0.09),
         uSaturation: new THREE.Uniform(1.1),
         // Light Uniforms
         uLight: new THREE.Uniform(new THREE.Vector3(1.0, 1.0, -1.0)),
